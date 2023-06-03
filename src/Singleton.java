@@ -1,5 +1,5 @@
 
-//Eager Initialization
+//Threadsafe Singleton
 
 public class Singleton {
 
@@ -9,9 +9,15 @@ public class Singleton {
     private Singleton() {
     }
 
+    // get instance using double locking
     public static Singleton getInstance() {
         if (instance == null) {
-            instance = new Singleton();
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+
         }
         return instance;
     }
